@@ -23,6 +23,13 @@ export default function Home() {
         try {
             // Only encode userData - letter will be regenerated on recipient's side
             const encoded = encodeData(userData);
+
+            // Check if encoding failed (returns null on validation failure)
+            if (!encoded) {
+                alert('Failed to create share link. Please check your input and try again.');
+                return;
+            }
+
             const url = `${window.location.origin}/letter?data=${encoded}`;
 
             navigator.clipboard.writeText(url).then(() => {

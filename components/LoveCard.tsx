@@ -6,6 +6,7 @@ import { LoveLetter } from '@/types';
 import FlowerAnimation from './FlowerAnimation';
 import html2canvas from 'html2canvas';
 import Link from 'next/link';
+import { generateSafeFilename } from '@/utils/sanitization';
 
 interface LoveCardProps {
     letter: LoveLetter;
@@ -50,10 +51,16 @@ export default function LoveCard({ letter, mode = 'preview', onShare, onClose }:
             // Convert canvas to data URL
             const dataUrl = canvas.toDataURL('image/png');
 
+            // Generate safe filename
+            const safeFilename = generateSafeFilename(
+                letter.greeting.replace(/[^a-zA-Z0-9\s]/g, '').substring(0, 20) || 'recipient',
+                letter.closing.replace(/[^a-zA-Z0-9\s]/g, '').substring(0, 20) || 'sender'
+            );
+
             // Create download link
             const link = document.createElement('a');
             link.href = dataUrl;
-            link.download = `love-letter-${Date.now()}.png`;
+            link.download = safeFilename;
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);

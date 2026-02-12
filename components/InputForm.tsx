@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { UserData, RelationshipType } from '@/types';
+import { sanitizeText, isValidText, VALIDATION_LIMITS } from '@/utils/sanitization';
 
 interface InputFormProps {
     onSubmit: (data: UserData) => void;
@@ -29,18 +30,58 @@ export default function InputForm({ onSubmit, initialData }: InputFormProps) {
     const [senderName, setSenderName] = useState(initialData?.senderName || '');
     const [relationshipType, setRelationshipType] = useState<RelationshipType>(initialData?.relationshipType || 'girlfriend');
     const [message, setMessage] = useState(initialData?.message || '');
+    const [error, setError] = useState<string>('');
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        if (recipientName.trim() && senderName.trim()) {
-            onSubmit({
-                recipientName: recipientName.trim(),
-                senderName: senderName.trim(),
-                relationshipType,
-                message: message.trim() || undefined,
-            });
+        setError('');
+
+        // Sanitize inputs
+        const sanitizedRecipient = sanitizeText(recipientName.trim());
+        const sanitizedSender = sanitizeText(senderName.trim());
+        const sanitizedMessage = sanitizeText(message.trim());
+
+        // Validate inputs
+        if (!sanitizedRecipient || !sanitizedSender) {
+            setError('Please fill in both names');
+            return;
         }
+
+        if (!isValidText(sanitizedRecipient) || !isValidText(sanitizedSender)) {
+            setError('Names contain invalid characters. Please use only letters, numbers, and basic punctuation.');
+            return;
+        }
+
+        if (sanitizedRecipient.length > VALIDATION_LIMITS.MAX_NAME_LENGTH) {
+            setError(`Recipient name is too long (max ${VALIDATION_LIMITS.MAX_NAME_LENGTH} characters)`);
+            return;
+        }
+
+        if (sanitizedSender.length > VALIDATION_LIMITS.MAX_NAME_LENGTH) {
+            setError(`Sender name is too long (max ${VALIDATION_LIMITS.MAX_NAME_LENGTH} characters)`);
+            return;
+        }
+
+        if (sanitizedMessage && !isValidText(sanitizedMessage)) {
+            setError('Message contains invalid characters. Please remove any HTML or script tags.');
+            return;
+        }
+
+        if (sanitizedMessage.length > VALIDATION_LIMITS.MAX_MESSAGE_LENGTH) {
+            setError(`Message is too long (max ${VALIDATION_LIMITS.MAX_MESSAGE_LENGTH} characters)`);
+            return;
+        }
+
+        onSubmit({
+            recipientName: sanitizedRecipient,
+            senderName: sanitizedSender,
+            relationshipType,
+            message: sanitizedMessage || undefined,
+        });
     };
+
+    const messageLength = message.length;
+    const isMessageTooLong = messageLength > VALIDATION_LIMITS.MAX_MESSAGE_LENGTH;
 
     return (
         <div className="form-container fade-in">
@@ -66,6 +107,20 @@ export default function InputForm({ onSubmit, initialData }: InputFormProps) {
                     Create a personalized message for someone special ❤️
                 </p>
 
+                {error && (
+                    <div style={{
+                        background: '#fee',
+                        border: '1px solid #fcc',
+                        borderRadius: '8px',
+                        padding: '0.75rem',
+                        marginBottom: '1rem',
+                        color: '#c00',
+                        fontSize: '0.9rem'
+                    }}>
+                        ⚠️ {error}
+                    </div>
+                )}
+
                 <form onSubmit={handleSubmit}>
                     <div className="input-group">
                         <label htmlFor="recipientName" className="input-label">
@@ -78,8 +133,12 @@ export default function InputForm({ onSubmit, initialData }: InputFormProps) {
                             value={recipientName}
                             onChange={(e) => setRecipientName(e.target.value)}
                             placeholder="Enter their name..."
+                            maxLength={VALIDATION_LIMITS.MAX_NAME_LENGTH}
                             required
                         />
+                        <small style={{ color: '#999', fontSize: '0.85rem' }}>
+                            {recipientName.length}/{VALIDATION_LIMITS.MAX_NAME_LENGTH}
+                        </small>
                     </div>
 
                     <div className="input-group">
@@ -93,8 +152,12 @@ export default function InputForm({ onSubmit, initialData }: InputFormProps) {
                             value={senderName}
                             onChange={(e) => setSenderName(e.target.value)}
                             placeholder="Enter your name..."
+                            maxLength={VALIDATION_LIMITS.MAX_NAME_LENGTH}
                             required
                         />
+                        <small style={{ color: '#999', fontSize: '0.85rem' }}>
+                            {senderName.length}/{VALIDATION_LIMITS.MAX_NAME_LENGTH}
+                        </small>
                     </div>
 
                     <div className="input-group">
@@ -125,12 +188,23 @@ export default function InputForm({ onSubmit, initialData }: InputFormProps) {
                             value={message}
                             onChange={(e) => setMessage(e.target.value)}
                             placeholder="Write your own message here, or leave empty for a surprise..."
+                            maxLength={VALIDATION_LIMITS.MAX_MESSAGE_LENGTH}
                             style={{
                                 minHeight: '120px',
                                 resize: 'vertical',
-                                fontFamily: "'Poppins', sans-serif"
+                                fontFamily: "'Poppins', sans-serif",
+                                borderColor: isMessageTooLong ? '#fcc' : undefined
                             }}
                         />
+                        <small style={{
+                            color: isMessageTooLong ? '#c00' : '#999',
+                            fontSize: '0.85rem',
+                            display: 'block',
+                            marginTop: '0.25rem'
+                        }}>
+                            {messageLength}/{VALIDATION_LIMITS.MAX_MESSAGE_LENGTH} characters
+                            {isMessageTooLong && ' - Message is too long!'}
+                        </small>
                     </div>
 
                     <button type="submit" className="btn btn-primary" style={{ width: '100%', marginTop: '1rem' }}>
