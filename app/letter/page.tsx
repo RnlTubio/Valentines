@@ -4,21 +4,24 @@ import { Suspense, useEffect, useState } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import LoveCard from '@/components/LoveCard';
 import { decodeData } from '@/utils/share';
+import { generateLoveLetter } from '@/utils/loveLetterGenerator';
 import { LoveLetter, UserData } from '@/types';
 
 // Component to handle the search params logic
 function LetterContent() {
     const searchParams = useSearchParams();
     const router = useRouter();
-    const [data, setData] = useState<{ userData: UserData; letter: LoveLetter } | null>(null);
+    const [letter, setLetter] = useState<LoveLetter | null>(null);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         const encodedData = searchParams.get('data');
         if (encodedData) {
-            const decoded = decodeData(encodedData);
-            if (decoded) {
-                setData(decoded);
+            const userData = decodeData(encodedData);
+            if (userData) {
+                // Regenerate the letter from user data
+                const generatedLetter = generateLoveLetter(userData);
+                setLetter(generatedLetter);
             } else {
                 // Invalid data, redirect to home
                 router.push('/');
@@ -45,7 +48,7 @@ function LetterContent() {
         );
     }
 
-    if (!data) return null;
+    if (!letter) return null;
 
     return (
         <main style={{
@@ -54,7 +57,7 @@ function LetterContent() {
             padding: '2rem',
         }}>
             <LoveCard
-                letter={data.letter}
+                letter={letter}
                 mode="recipient"
             />
         </main>

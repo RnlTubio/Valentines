@@ -12,26 +12,26 @@
   --burgundy: #800020;
   --lavender: #E6E6FA;
   --gold: #FFD700;
-  
+
   /* Gradients */
   --gradient-romantic: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   --gradient-rose: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
   --gradient-sunset: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
   --gradient-love: linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 50%, #c44569 100%);
   --gradient-soft: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
-  
+
   /* Shadows */
   --shadow-soft: 0 4px 20px rgba(255, 105, 135, 0.2);
   --shadow-medium: 0 8px 32px rgba(255, 105, 135, 0.3);
   --shadow-strong: 0 12px 48px rgba(255, 105, 135, 0.4);
-  
+
   /* Spacing */
   --spacing-xs: 0.5rem;
   --spacing-sm: 1rem;
   --spacing-md: 1.5rem;
   --spacing-lg: 2rem;
   --spacing-xl: 3rem;
-  
+
   /* Border Radius */
   --radius-sm: 8px;
   --radius-md: 16px;
@@ -61,7 +61,7 @@ body::before {
   left: 0;
   width: 100%;
   height: 100%;
-  background: 
+  background:
     radial-gradient(circle at 20% 50%, rgba(255, 182, 193, 0.3) 0%, transparent 50%),
     radial-gradient(circle at 80% 80%, rgba(255, 105, 180, 0.2) 0%, transparent 50%),
     radial-gradient(circle at 40% 20%, rgba(230, 230, 250, 0.3) 0%, transparent 50%);
@@ -71,10 +71,13 @@ body::before {
 }
 
 @keyframes backgroundFloat {
-  0%, 100% {
+
+  0%,
+  100% {
     opacity: 1;
     transform: scale(1);
   }
+
   50% {
     opacity: 0.8;
     transform: scale(1.1);
@@ -87,12 +90,15 @@ body::before {
     transform: translateY(100vh) rotate(0deg);
     opacity: 0;
   }
+
   10% {
     opacity: 1;
   }
+
   90% {
     opacity: 1;
   }
+
   100% {
     transform: translateY(-100vh) rotate(360deg);
     opacity: 0;
@@ -118,7 +124,9 @@ body::before {
 }
 
 /* Typography */
-h1, h2, h3 {
+h1,
+h2,
+h3 {
   font-family: 'Playfair Display', serif;
   font-weight: 700;
 }
@@ -232,6 +240,7 @@ h1, h2, h3 {
     opacity: 0;
     transform: translateY(20px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -243,6 +252,7 @@ h1, h2, h3 {
     opacity: 0;
     transform: translateX(-30px);
   }
+
   to {
     opacity: 1;
     transform: translateX(0);
@@ -250,9 +260,12 @@ h1, h2, h3 {
 }
 
 @keyframes pulse {
-  0%, 100% {
+
+  0%,
+  100% {
     transform: scale(1);
   }
+
   50% {
     transform: scale(1.05);
   }
@@ -262,6 +275,7 @@ h1, h2, h3 {
   0% {
     background-position: -1000px 0;
   }
+
   100% {
     background-position: 1000px 0;
   }
@@ -276,25 +290,121 @@ h1, h2, h3 {
 }
 
 /* Responsive Design */
-@media (max-width: 768px) {
+
+/* Mobile First - Base styles for small screens (320px+) */
+@media (max-width: 480px) {
+  :root {
+    --spacing-xl: 1.5rem;
+    --spacing-lg: 1rem;
+    --spacing-md: 0.75rem;
+    --spacing-sm: 0.5rem;
+  }
+
+  body {
+    font-size: 14px;
+  }
+
+  h1 {
+    font-size: 1.75rem;
+  }
+
+  h2 {
+    font-size: 1.5rem;
+  }
+
+  .card {
+    padding: 1rem;
+    border-radius: var(--radius-lg);
+  }
+
+  .btn {
+    padding: 0.75rem 1.5rem;
+    font-size: 0.875rem;
+    width: 100%;
+    margin-bottom: 0.5rem;
+  }
+
+  .input-field,
+  .select-field {
+    padding: 0.75rem 1rem;
+    font-size: 0.9rem;
+  }
+
+  /* Reduce floating heart size on mobile */
+  .floating-heart {
+    font-size: 14px;
+  }
+}
+
+/* Tablet styles (481px - 768px) */
+@media (min-width: 481px) and (max-width: 768px) {
   :root {
     --spacing-xl: 2rem;
     --spacing-lg: 1.5rem;
   }
-  
+
   .card {
     padding: var(--spacing-lg);
   }
-  
+
   .btn {
     padding: 0.875rem 2rem;
     font-size: 0.95rem;
   }
 }
 
-@media (max-width: 480px) {
-  :root {
-    --spacing-xl: 1.5rem;
-    --spacing-lg: 1rem;
+/* Desktop styles (769px+) */
+@media (min-width: 769px) {
+  .btn:not(:last-child) {
+    margin-right: 0.5rem;
+  }
+}
+
+/* Landscape mobile optimization */
+@media (max-width: 768px) and (orientation: landscape) {
+  body {
+    min-height: auto;
+  }
+
+  .card {
+    margin: 1rem auto;
+  }
+}
+
+/* Touch device optimizations */
+@media (hover: none) and (pointer: coarse) {
+  .btn {
+    min-height: 44px;
+    /* iOS recommended touch target */
+    min-width: 44px;
+  }
+
+  .input-field,
+  .select-field {
+    min-height: 44px;
+  }
+}
+
+/* High DPI screens */
+@media (-webkit-min-device-pixel-ratio: 2),
+(min-resolution: 192dpi) {
+  .card {
+    border-width: 0.5px;
+  }
+}
+
+/* Reduce motion for accessibility */
+@media (prefers-reduced-motion: reduce) {
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  .floating-heart {
+    display: none;
   }
 }

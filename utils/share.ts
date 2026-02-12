@@ -1,10 +1,8 @@
 import LZString from 'lz-string';
-import { LoveLetter, UserData } from '@/types';
+import { UserData } from '@/types';
 
-interface ShareData {
-    userData: UserData;
-    letter: LoveLetter;
-}
+// Only encode user data - letter will be regenerated on recipient's side
+export type ShareData = UserData;
 
 export const encodeData = (data: ShareData): string => {
     const json = JSON.stringify(data);

@@ -44,9 +44,9 @@ export default function InputForm({ onSubmit, initialData }: InputFormProps) {
 
     return (
         <div className="form-container fade-in">
-            <div className="card" style={{ maxWidth: '500px', margin: '0 auto' }}>
+            <div className="card" style={{ maxWidth: '500px', margin: '0 auto', width: '100%' }}>
                 <h1 className="script-font" style={{
-                    fontSize: '3rem',
+                    fontSize: 'clamp(2rem, 5vw, 3rem)',
                     textAlign: 'center',
                     marginBottom: '1rem',
                     background: 'var(--gradient-love)',
@@ -60,7 +60,8 @@ export default function InputForm({ onSubmit, initialData }: InputFormProps) {
                     textAlign: 'center',
                     marginBottom: '2rem',
                     color: 'var(--rose-gold)',
-                    fontSize: '1.1rem'
+                    fontSize: 'clamp(0.9rem, 2vw, 1.1rem)',
+                    padding: '0 0.5rem'
                 }}>
                     Create a personalized message for someone special ❤️
                 </p>

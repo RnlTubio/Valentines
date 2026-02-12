@@ -21,12 +21,8 @@ export default function Home() {
         if (!userData || !currentLetter) return;
 
         try {
-            const data = {
-                userData,
-                letter: currentLetter
-            };
-
-            const encoded = encodeData(data);
+            // Only encode userData - letter will be regenerated on recipient's side
+            const encoded = encodeData(userData);
             const url = `${window.location.origin}/letter?data=${encoded}`;
 
             navigator.clipboard.writeText(url).then(() => {
