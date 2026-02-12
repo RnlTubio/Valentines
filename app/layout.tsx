@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import Footer from "@/components/Footer";
 
 export const metadata: Metadata = {
     title: "Valentine's Day Love Letter",
@@ -19,6 +20,8 @@ export const metadata: Metadata = {
     },
 };
 
+
+
 export default function RootLayout({
     children,
 }: Readonly<{
@@ -30,8 +33,15 @@ export default function RootLayout({
                 <link rel="preconnect" href="https://fonts.googleapis.com" />
                 <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
             </head>
-            <body>
-                {children}
+            <body style={{
+                display: 'flex',
+                flexDirection: 'column',
+                minHeight: '100vh',
+            }}>
+                <div style={{ flex: '1 0 auto' }}>
+                    {children}
+                </div>
+                <Footer />
             </body>
         </html>
     );

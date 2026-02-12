@@ -36,7 +36,7 @@ function LetterContent() {
     if (loading) {
         return (
             <div style={{
-                minHeight: '100vh',
+                flex: 1,
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
@@ -52,7 +52,7 @@ function LetterContent() {
 
     return (
         <main style={{
-            minHeight: '100vh',
+            flex: 1,
             background: 'linear-gradient(135deg, #fff5f5 0%, #ffe3e3 100%)',
             padding: 'clamp(0.5rem, 3vw, 2rem)',
             display: 'flex',
@@ -72,7 +72,7 @@ export default function LetterPage() {
     return (
         <Suspense fallback={
             <div style={{
-                minHeight: '100vh',
+                flex: 1,
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
