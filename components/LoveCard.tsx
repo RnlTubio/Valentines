@@ -143,42 +143,55 @@ export default function LoveCard({ letter, mode = 'preview', onShare, onClose }:
                             background: 'linear-gradient(to bottom, #ffffff, #fff5f5)',
                             border: '3px solid var(--rose-gold)',
                             position: 'relative',
-                            margin: '0 auto'
+                            margin: '0 auto',
+                            padding: 'clamp(1rem, 4vw, 2rem)'
                         }}
                     >
-                        <div ref={letterRef} style={{ padding: '1rem' }}>
+                        <div ref={letterRef} style={{ padding: 'clamp(0.5rem, 2vw, 1rem)' }}>
                             <div style={{
                                 textAlign: 'center',
-                                marginBottom: '2rem'
+                                marginBottom: 'clamp(1rem, 3vw, 2rem)'
                             }}>
-                                <div style={{ fontSize: 'clamp(2rem, 5vw, 3rem)', marginBottom: '1rem' }}>
+                                <div style={{ fontSize: 'clamp(1.5rem, 5vw, 3rem)', marginBottom: 'clamp(0.5rem, 2vw, 1rem)' }}>
                                     🌹💕🌹
                                 </div>
                                 <h2 className="script-font" style={{
-                                    fontSize: 'clamp(1.75rem, 4vw, 2.5rem)',
+                                    fontSize: 'clamp(1.25rem, 4.5vw, 2.5rem)',
                                     color: 'var(--rose-red)',
-                                    marginBottom: '1.5rem'
+                                    marginBottom: 'clamp(0.75rem, 2vw, 1.5rem)',
+                                    wordWrap: 'break-word',
+                                    overflowWrap: 'break-word',
+                                    hyphens: 'auto',
+                                    padding: '0 0.5rem'
                                 }}>
                                     {letter.greeting}
                                 </h2>
                             </div>
 
                             <div style={{
-                                fontSize: 'clamp(1rem, 2vw, 1.15rem)',
-                                lineHeight: '1.8',
+                                fontSize: 'clamp(0.9rem, 2.5vw, 1.15rem)',
+                                lineHeight: '1.7',
                                 color: '#333',
-                                marginBottom: '2rem',
+                                marginBottom: 'clamp(1rem, 3vw, 2rem)',
                                 fontFamily: "'Playfair Display', serif",
-                                textAlign: 'justify'
+                                textAlign: 'left',
+                                wordWrap: 'break-word',
+                                overflowWrap: 'break-word',
+                                hyphens: 'auto',
+                                padding: '0 0.25rem'
                             }}>
                                 {letter.body}
                             </div>
 
                             <div className="script-font" style={{
-                                fontSize: 'clamp(1.5rem, 3vw, 1.8rem)',
+                                fontSize: 'clamp(1.1rem, 3.5vw, 1.8rem)',
                                 color: 'var(--rose-red)',
                                 textAlign: 'right',
-                                marginTop: '2rem'
+                                marginTop: 'clamp(1rem, 3vw, 2rem)',
+                                wordWrap: 'break-word',
+                                overflowWrap: 'break-word',
+                                hyphens: 'auto',
+                                padding: '0 0.5rem'
                             }}>
                                 {letter.closing}
                             </div>

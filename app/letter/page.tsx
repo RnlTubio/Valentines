@@ -54,7 +54,10 @@ function LetterContent() {
         <main style={{
             minHeight: '100vh',
             background: 'linear-gradient(135deg, #fff5f5 0%, #ffe3e3 100%)',
-            padding: '2rem',
+            padding: 'clamp(0.5rem, 3vw, 2rem)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center'
         }}>
             <LoveCard
                 letter={letter}
